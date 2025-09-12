@@ -22,11 +22,7 @@ def get_clients_bonuses_menu_inline_keyboard() -> InlineKeyboardMarkup:
     clients_bonuses_menu_inline: InlineKeyboardMarkup = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                button_1
-            ],[
                 button_2
-            ],[
-                button_3
             ],
         ]
     )

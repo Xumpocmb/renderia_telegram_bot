@@ -33,7 +33,7 @@ button_faq = create_inline_button(text="Вопрос & Ответ", callback_dat
 button_payment = create_inline_button(text="Оплатить", callback_data="erip_payment")
 button_erip = create_inline_button(text="Оплатить по ЕРИП", callback_data="erip_info")
 button_bonuses = create_inline_button(text="Бонусы для клиентов", callback_data="menu_bonuses")
-button_manager = create_inline_button(text="Ваш менеджер KIBERone", callback_data="contact_manager")
+button_manager = create_inline_button(text="Ваш менеджер", callback_data="contact_manager")
 button_tg_links = create_inline_button(text="Ваш чат группы", callback_data="tg_links")
 button_links = create_inline_button(text="Будь в тренде!", callback_data="menu_links")
 button_trial = create_inline_button(text="Дата пробного занятия", callback_data="user_trial_date")
