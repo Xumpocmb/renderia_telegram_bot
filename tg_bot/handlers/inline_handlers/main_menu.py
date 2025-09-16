@@ -10,7 +10,7 @@ from tg_bot.keyboards.inline_keyboards.inline_keyboard_main_menu import (
     get_lead_without_group_keyboard,
 )
 from tg_bot.service.api_requests import find_user_in_django
-from tg_bot.configs.bot_messages import MAIN_MENU_NOT_REGISTERED, MAIN_MENU_TITLE
+from tg_bot.configs.bot_messages import MAIN_MENU_NOT_REGISTERED, MAIN_MENU_TITLE, MAIN_MENU_EDIT_TITLE
 
 
 logger = get_logger()
@@ -52,31 +52,45 @@ async def main_menu_handler(callback: CallbackQuery):
 async def get_user_keyboard(telegram_id):
     """
     Возвращает клавиатуру в зависимости от статуса пользователя.
+
+    Args:
+        telegram_id: ID пользователя в Telegram
+
+    Returns:
+        ReplyKeyboardMarkup или None: клавиатура или None в случае ошибки
     """
     try:
+        logger.debug(f"Получение клавиатуры для пользователя {telegram_id}")
+
         # Поиск пользователя в базе данных Django
         find_result = await find_user_in_django(telegram_id)
         if not find_result or not find_result.get("success"):
-            logger.error(f"Ошибка при поиске пользователя в БД: {find_result}")
-            return None
+            logger.error(f"Ошибка при поиске пользователя {telegram_id} в БД: {find_result}")
+            return get_lead_without_group_keyboard()  # Возвращаем клавиатуру по умолчанию
 
         db_user = find_result.get("user")
         if not db_user or "id" not in db_user:
-            logger.error(f"Некорректные данные пользователя: {db_user}")
-            return None
+            logger.warning(f"Некорректные данные пользователя {telegram_id}: {db_user}")
+            return get_lead_without_group_keyboard()  # Возвращаем клавиатуру по умолчанию
 
         # Получение актуального статуса пользователя
         user_status = db_user.get("status", "0")  # По умолчанию "Lead"
-        logger.info(f"Пользователь с ID {telegram_id} имеет статус: {user_status}")
+        logger.info(f"Пользователь {telegram_id} имеет статус: {user_status}")
 
         # Возвращаем клавиатуру в зависимости от статуса
         if user_status == "2":  # Клиент
-            return get_client_keyboard(telegram_id)
+            keyboard = get_client_keyboard(telegram_id)
+            logger.debug(f"Возвращена клиентская клавиатура для {telegram_id}")
         elif user_status == "1":  # Lead с группой
-            return get_lead_with_group_keyboard()
-        else:  # Lead
-            return get_lead_without_group_keyboard()
+            keyboard = get_lead_with_group_keyboard()
+            logger.debug(f"Возвращена клавиатура Lead с группой для {telegram_id}")
+        else:  # Lead (статус "0" или неизвестный)
+            keyboard = get_lead_without_group_keyboard()
+            logger.debug(f"Возвращена клавиатура Lead без группы для {telegram_id}")
+
+        return keyboard
 
     except Exception as e:
-        logger.error(f"Ошибка при получении клавиатуры пользователя: {e}")
-        return None
+        logger.error(f"Критическая ошибка при получении клавиатуры для {telegram_id}: {e}", exc_info=True)
+        # Возвращаем клавиатуру по умолчанию вместо None
+        return get_lead_without_group_keyboard()

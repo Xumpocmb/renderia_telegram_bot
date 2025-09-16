@@ -82,8 +82,6 @@ async def handle_existing_user(message, db_user: dict):
 
     # Поиск в црм, создание и обновление в БД
     await handle_crm_lookup(message, phone_number, db_user)
-
-    
     await message.answer(START_MENU, reply_markup=await get_user_keyboard(telegram_id))
     return
     # buttons = [
