@@ -29,7 +29,7 @@ async def send_menu_bonuses(callback_query: CallbackQuery):
     logger.info(f"Пользователь с ID {telegram_id} имеет статус: {user_status}")
 
     if user_status == "2":
-        await callback_query.message.edit_text(MENU_BONUSES_TITLE, reply_markup=get_clients_bonuses_menu_inline_keyboard())
+        await callback_query.message.answer(MENU_BONUSES_TITLE, reply_markup=get_clients_bonuses_menu_inline_keyboard())
     else:
-        await callback_query.message.edit_text(MENU_BONUSES_TITLE, reply_markup=get_clients_bonuses_menu_inline_for_lead_keyboard())
+        await callback_query.message.answer(MENU_BONUSES_TITLE, reply_markup=get_clients_bonuses_menu_inline_for_lead_keyboard())
     await callback_query.answer()
