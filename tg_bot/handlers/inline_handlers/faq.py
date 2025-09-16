@@ -67,7 +67,7 @@ async def study_programms_handler(callback: CallbackQuery):
         keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🔙 Назад", callback_data="faq")]])
 
         # Отправляем сообщение с описанием
-        await callback.message.edit_text("Программа обучения в RENDERIA\n\nОтправляю файлы с программами обучения...", reply_markup=keyboard)
+        await callback.message.edit_text("Программа обучения в RENDERIA", reply_markup=keyboard)
 
         # Получаем список файлов и отправляем их
         study_programs_path = "tg_bot/files/study_programs"
