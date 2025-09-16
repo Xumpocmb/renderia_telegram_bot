@@ -67,7 +67,7 @@ async def study_programms_handler(callback: CallbackQuery):
         keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🔙 Назад", callback_data="faq")]])
 
         # Отправляем сообщение с описанием
-        await callback.message.edit_text("Программа обучения в RENDERIA", reply_markup=keyboard)
+        await callback.message.edit_text("Программа обучения в RENDERIA\n\nОтправляю файлы с программами обучения...")
 
         # Получаем список файлов и отправляем их
         study_programs_path = "tg_bot/files/study_programs"
@@ -76,7 +76,7 @@ async def study_programms_handler(callback: CallbackQuery):
             if os.path.isfile(file_path):
                 await callback.message.answer_document(types.FSInputFile(file_path), caption=file_name.replace("_", " ").replace(".pdf", ""))
 
-        await callback.answer("Все файлы отправлены")
+        await callback.answer("Все файлы отправлены", reply_markup=keyboard)
     except Exception as e:
         await callback.message.answer("Произошла ошибка при отправке файлов")
         await callback.answer()
