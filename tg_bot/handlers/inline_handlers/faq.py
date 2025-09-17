@@ -63,21 +63,101 @@ async def handle_faq_question(callback: CallbackQuery):
 @faq_router.callback_query(F.data == "study_programms")
 async def study_programms_handler(callback: CallbackQuery):
     try:
+        # Создаем клавиатуру с выбором возрастных групп
+        keyboard = InlineKeyboardBuilder()
+        keyboard.button(text="Младшая группа", callback_data="study_programm_junior")
+        keyboard.button(text="Средняя группа", callback_data="study_programm_middle")
+        keyboard.button(text="Старшая группа", callback_data="study_programm_senior")
+        keyboard.button(text="🔙 Назад", callback_data="faq")
+        keyboard.adjust(1)  # Размещаем кнопки в один столбец
+
+        # Отправляем сообщение с выбором возрастной группы
+        await callback.message.edit_text(
+            "Программа обучения в RENDERIA\n\nВыберите возрастную группу:",
+            reply_markup=keyboard.as_markup()
+        )
+    except Exception as e:
+        await callback.message.answer("Произошла ошибка при отображении меню")
+    finally:
+        await callback.answer()
+
+
+@faq_router.callback_query(F.data == "study_programm_junior")
+async def study_programm_junior_handler(callback: CallbackQuery):
+    try:
         # Создаем клавиатуру с кнопкой "Назад"
-        keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🔙 Назад", callback_data="faq")]])
+        keyboard = InlineKeyboardBuilder()
+        keyboard.button(text="🔙 Назад", callback_data="study_programms")
+        keyboard.adjust(1)
 
         # Отправляем сообщение с описанием
-        await callback.message.answer("Программа обучения в RENDERIA\n\nОтправляю файлы с программами обучения...")
+        await callback.message.answer("Программа обучения в RENDERIA - Младшая группа")
 
-        # Получаем список файлов и отправляем их
-        study_programs_path = "tg_bot/files/study_programs"
-        for file_name in os.listdir(study_programs_path):
-            file_path = os.path.join(study_programs_path, file_name)
-            if os.path.isfile(file_path):
-                await callback.message.answer_document(types.FSInputFile(file_path), caption=file_name.replace("_", " ").replace(".pdf", ""))
-
-        await callback.message.answer("Все файлы отправлены", reply_markup=keyboard)
+        # Отправляем файл для младшей группы
+        file_path = "tg_bot/files/study_programs/junior_RENDERIA.pdf"
+        if os.path.isfile(file_path):
+            await callback.message.answer_document(
+                types.FSInputFile(file_path), 
+                caption="Программа обучения - Младшая группа",
+                reply_markup=keyboard.as_markup()
+            )
+        else:
+            await callback.message.answer("Файл программы обучения не найден", reply_markup=keyboard.as_markup())
     except Exception as e:
-        await callback.message.answer("Произошла ошибка при отправке файлов")
+        await callback.message.answer(f"Произошла ошибка при отправке файла: {str(e)}")
+    finally:
+        await callback.answer()
+
+
+@faq_router.callback_query(F.data == "study_programm_middle")
+async def study_programm_middle_handler(callback: CallbackQuery):
+    try:
+        # Создаем клавиатуру с кнопкой "Назад"
+        keyboard = InlineKeyboardBuilder()
+        keyboard.button(text="🔙 Назад", callback_data="study_programms")
+        keyboard.adjust(1)
+
+        # Отправляем сообщение с описанием
+        await callback.message.answer("Программа обучения в RENDERIA - Средняя группа")
+
+        # Отправляем файл для средней группы
+        file_path = "tg_bot/files/study_programs/middle_RENDERIA.pdf"
+        if os.path.isfile(file_path):
+            await callback.message.answer_document(
+                types.FSInputFile(file_path), 
+                caption="Программа обучения - Средняя группа",
+                reply_markup=keyboard.as_markup()
+            )
+        else:
+            await callback.message.answer("Файл программы обучения не найден", reply_markup=keyboard.as_markup())
+    except Exception as e:
+        await callback.message.answer(f"Произошла ошибка при отправке файла: {str(e)}")
+    finally:
+        await callback.answer()
+
+
+@faq_router.callback_query(F.data == "study_programm_senior")
+async def study_programm_senior_handler(callback: CallbackQuery):
+    try:
+        # Создаем клавиатуру с кнопкой "Назад"
+        keyboard = InlineKeyboardBuilder()
+        keyboard.button(text="🔙 Назад", callback_data="study_programms")
+        keyboard.adjust(1)
+
+        # Отправляем сообщение с описанием
+        await callback.message.answer("Программа обучения в RENDERIA - Старшая группа")
+
+        # Отправляем файл для старшей группы
+        file_path = "tg_bot/files/study_programs/senior_RENDERIA.pdf"
+        if os.path.isfile(file_path):
+            await callback.message.answer_document(
+                types.FSInputFile(file_path), 
+                caption="Программа обучения - Старшая группа",
+                reply_markup=keyboard.as_markup()
+            )
+        else:
+            await callback.message.answer("Файл программы обучения не найден", reply_markup=keyboard.as_markup())
+    except Exception as e:
+        await callback.message.answer("Произошла ошибка при отправке файла")
     finally:
         await callback.answer()
