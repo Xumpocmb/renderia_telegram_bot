@@ -91,7 +91,7 @@ async def study_programm_junior_handler(callback: CallbackQuery):
         keyboard.adjust(1)
 
         # Отправляем сообщение с описанием
-        await callback.message.answer("Программа обучения в RENDERIA - Младшая группа")
+        await callback.message.answer("Программа обучения в RENDERIA - Младшая группа\nФайл отправляется..")
 
         # Отправляем файл для младшей группы
         file_path = "tg_bot/files/study_programs/junior_RENDERIA.pdf"
@@ -118,7 +118,7 @@ async def study_programm_middle_handler(callback: CallbackQuery):
         keyboard.adjust(1)
 
         # Отправляем сообщение с описанием
-        await callback.message.answer("Программа обучения в RENDERIA - Средняя группа")
+        await callback.message.answer("Программа обучения в RENDERIA - Средняя группа\nФайл отправляется..")
 
         # Отправляем файл для средней группы
         file_path = "tg_bot/files/study_programs/middle_RENDERIA.pdf"
@@ -145,7 +145,7 @@ async def study_programm_senior_handler(callback: CallbackQuery):
         keyboard.adjust(1)
 
         # Отправляем сообщение с описанием
-        await callback.message.answer("Программа обучения в RENDERIA - Старшая группа")
+        await callback.message.answer("Программа обучения в RENDERIA - Старшая группа\nФайл отправляется..")
 
         # Отправляем файл для старшей группы
         file_path = "tg_bot/files/study_programs/senior_RENDERIA.pdf"
