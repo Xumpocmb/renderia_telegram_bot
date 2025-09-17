@@ -12,6 +12,8 @@ from tg_bot.configs.set_commands import set_main_menu
 from tg_bot.configs.logger_config import get_logger
 from tg_bot.handlers.inline_handlers.check_balance import balance_router
 from tg_bot.handlers.inline_handlers.inline_handler_english_platform import english_platform_router
+from tg_bot.metrics import MetricsMiddleware
+from tg_bot.handlers.handler_metrics import metrics_router
 
 from tg_bot.handlers.inline_handlers.main_menu import main_menu_router
 from tg_bot.handlers.inline_handlers.faq import faq_router
@@ -51,6 +53,9 @@ async def main():
 
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
+    
+    # Register metrics middleware
+    dp.update.middleware(MetricsMiddleware())
 
     dp.include_routers (
         handler_start.start_router,
@@ -65,6 +70,7 @@ async def main():
         balance_router,
         menu_bonuses_router,
         english_platform_router,
+        metrics_router,
     )
 
     try:
