@@ -80,4 +80,5 @@ venv.bak/
 /.vscode/
 /.pylintrc
 settings.json
-tg_bot/metrics
+tg_bot/metrics/reports
+tg_bot/metrics/bot_metrics.json
