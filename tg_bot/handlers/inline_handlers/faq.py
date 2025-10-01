@@ -65,9 +65,9 @@ async def study_programms_handler(callback: CallbackQuery):
     try:
         # Создаем клавиатуру с выбором возрастных групп
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(text="Младшая группа 6-8 лет", callback_data="study_programm_junior")
-        keyboard.button(text="Средняя группа 9-11 лет", callback_data="study_programm_middle")
-        keyboard.button(text="Старшая группа 12-14 лет", callback_data="study_programm_senior")
+        keyboard.button(text="Младшая группа 8-9 лет", callback_data="study_programm_junior")
+        keyboard.button(text="Средняя группа 10-11 лет", callback_data="study_programm_middle")
+        keyboard.button(text="Старшая группа 12-13 лет", callback_data="study_programm_senior")
         keyboard.button(text="🔙 Назад", callback_data="faq")
         keyboard.adjust(1)  # Размещаем кнопки в один столбец
 
