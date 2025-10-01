@@ -66,9 +66,9 @@ venv.bak/
 *.db
 *.exe
 *.pdf
-/debug.log
+
 /files/
-/bot.log
+*.log
 /click_data.json
 /kiberclub_credentials.json
 /kiberone-tg-bot-a43691efe721.json
@@ -80,3 +80,4 @@ venv.bak/
 /.vscode/
 /.pylintrc
 settings.json
+tg_bot/metrics
